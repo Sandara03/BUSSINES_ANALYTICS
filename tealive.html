@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧋 Tealive Business Analytics Database</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #F5F5DC 0%, #FFF8DC 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #8a2be2 0%, #4b0082 100%);
+            padding: 20px 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            color: #8a2be2;
+            font-size: 56px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .hero p {
+            color: #666;
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+
+        .hero-btn {
+            background: linear-gradient(135deg, #8a2be2 0%, #4b0082 100%);
+            color: white;
+            padding: 18px 45px;
+            border: none;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.3);
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(138, 43, 226, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .value {
+            color: #8a2be2;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .subtext {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .members-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .members-section h2 {
+            color: #8a2be2;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .member-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .member-card {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(194, 24, 91, 0.2);
+            transition: all 0.3s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(194, 24, 91, 0.3);
+        }
+
+        .member-card h3 {
+            color: #8a2be2;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .member-card p {
+            color: #666;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .data-table {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .data-table h2 {
+            color: #8a2be2;
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #f8bbd0 0%, #fce4ec 100%);
+        }
+
+        th {
+            padding: 20px;
+            text-align: left;
+            color: #8a2be2;
+            font-weight: bold;
+            font-size: 16px;
+            border-bottom: 3px solid #f48fb1;
+        }
+
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #fce4ec;
+            color: #333;
+            font-size: 15px;
+        }
+
+        tbody tr {
+            transition: all 0.3s;
+        }
+
+        tbody tr:hover {
+            background: #fce4ec;
+            transform: scale(1.01);
+        }
+
+        tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #f8bbd0 0%, #fce4ec 100%);
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .footer p {
+            color: #8a2be2;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .hero {
+                padding: 40px 30px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .stat-card .value {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION BAR -->
+    <div class="navbar">
+        <div class="logo">
+            🧋 Tealive Analytics
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#products">Products</a>
+            <a href="#members">Members</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- HERO SECTION -->
+        <div class="hero">
+            <h1>Welcome to Tealive Business Analytics</h1>
+            <p>We bring data-driven insights to optimize your bubble tea business — perfect for every decision!</p>
+            <button class="hero-btn">View Our Database 🧋</button>
+        </div>
+
+        <!-- STATISTICS DASHBOARD -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>💰 Total Revenue</h3>
+                <div class="value">₱117,935</div>
+                <div class="subtext">From 959 units sold</div>
+            </div>
+            <div class="stat-card">
+                <h3>📈 Total Profit</h3>
+                <div class="value">₱67,830</div>
+                <div class="subtext">57.5% profit margin</div>
+            </div>
+            <div class="stat-card">
+                <h3>🛍️ Units Sold</h3>
+                <div class="value">959</div>
+                <div class="subtext">Avg 48 units/day</div>
+            </div>
+            <div class="stat-card">
+                <h3>⭐ Avg Rating</h3>
+                <div class="value">4.39</div>
+                <div class="subtext">High satisfaction</div>
+            </div>
+        </div>
+
+        <!-- MEMBERS SECTION -->
+        <div class="members-section" id="members">
+            <h2>Our Analytics Team 👥</h2>
+            <div class="member-cards">
+                <div class="member-card">
+                    <h3>Rosemarie Amores</h3>
+                    <p>Descriptive</p>
+                </div>
+                <div class="member-card">
+                    <h3>Cristina Sandara Tajanlangit</h3>
+                    <p>Predictive</p>
+                </div>
+                <div class="member-card">
+                    <h3>Ruffa Mae Augusto</h3>
+                    <p>Prescriptive</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DATA TABLE -->
+        <div class="data-table" id="products">
+            <h2>📊 Tealive Sales Database (October 2025)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Oct 1</td>
+                        <td>Brown Sugar Pearl Milk Tea</td>
+                        <td>Milk Tea</td>
+                        <td>45</td>
+                        <td>₱120</td>
+                        <td>⭐ 4.5</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 2</td>
+                        <td>Passion Fruit Tea</td>
+                        <td>Fruit Tea</td>
+                        <td>38</td>
+                        <td>₱110</td>
+                        <td>⭐ 4.2</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 3</td>
+                        <td>Matcha Latte</td>
+                        <td>Milk Tea</td>
+                        <td>52</td>
+                        <td>₱130</td>
+                        <td>⭐ 4.7</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 4</td>
+                        <td>Mango Smoothie</td>
+                        <td>Smoothies</td>
+                        <td>41</td>
+                        <td>₱140</td>
+                        <td>⭐ 4.4</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 5</td>
+                        <td>Wintermelon Milk Tea</td>
+                        <td>Milk Tea</td>
+                        <td>63</td>
+                        <td>₱115</td>
+                        <td>⭐ 4.6</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 6</td>
+                        <td>Lychee Fruit Tea</td>
+                        <td>Fruit Tea</td>
+                        <td>57</td>
+                        <td>₱110</td>
+                        <td>⭐ 4.3</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 7</td>
+                        <td>Taro Milk Tea</td>
+                        <td>Milk Tea</td>
+                        <td>35</td>
+                        <td>₱125</td>
+                        <td>⭐ 4.1</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 8</td>
+                        <td>Peach Iced Tea</td>
+                        <td>Fruit Tea</td>
+                        <td>44</td>
+                        <td>₱105</td>
+                        <td>⭐ 4.0</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 9</td>
+                        <td>Brown Sugar Pearl Milk Tea</td>
+                        <td>Milk Tea</td>
+                        <td>49</td>
+                        <td>₱120</td>
+                        <td>⭐ 4.5</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 10</td>
+                        <td>Strawberry Smoothie</td>
+                        <td>Smoothies</td>
+                        <td>39</td>
+                        <td>₱145</td>
+                        <td>⭐ 4.6</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 11</td>
+                        <td>Chocolate Milk Tea</td>
+                        <td>Milk Tea</td>
+                        <td>47</td>
+                        <td>₱130</td>
+                        <td>⭐ 4.4</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 12</td>
+                        <td>Lemon Iced Tea</td>
+                        <td>Fruit Tea</td>
+                        <td>61</td>
+                        <td>₱100</td>
+                        <td>⭐ 4.2</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 13</td>
+                        <td>Hokkaido Milk Tea</td>
+                        <td>Milk Tea</td>
+                        <td>55</td>
+                        <td>₱135</td>
+                        <td>⭐ 4.8</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 14</td>
+                        <td>Green Apple Tea</td>
+                        <td>Fruit Tea</td>
+                        <td>33</td>
+                        <td>₱110</td>
+                        <td>⭐ 3.9</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 15</td>
+                        <td>Caramel Macchiato</td>
+                        <td>Milk Tea</td>
+                        <td>42</td>
+                        <td>₱140</td>
+                        <td>⭐ 4.3</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 16</td>
+                        <td>Passion Fruit Tea</td>
+                        <td>Fruit Tea</td>
+                        <td>50</td>
+                        <td>₱110</td>
+                        <td>⭐ 4.5</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 17</td>
+                        <td>Blueberry Smoothie</td>
+                        <td>Smoothies</td>
+                        <td>36</td>
+                        <td>₱150</td>
+                        <td>⭐ 4.4</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 18</td>
+                        <td>Brown Sugar Pearl Milk Tea</td>
+                        <td>Milk Tea</td>
+                        <td>68</td>
+                        <td>₱120</td>
+                        <td>⭐ 4.7</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 19</td>
+                        <td>Watermelon Juice</td>
+                        <td>Fruit Tea</td>
+                        <td>59</td>
+                        <td>₱115</td>
+                        <td>⭐ 4.6</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 20</td>
+                        <td>Classic Milk Tea</td>
+                        <td>Milk Tea</td>
+                        <td>46</td>
+                        <td>₱100</td>
+                        <td>⭐ 4.2</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>© 2025 Tealive Analytics IT TRACK BUSINESS ANALYTICS — All Rights Reserved.</p>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                
+                // Update active link
+                document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Button click animation
+        document.querySelector('.hero-btn').addEventListener('click', function() {
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
